@@ -4,9 +4,15 @@ require 'swizzleable'
 class Vector < Array
   include Swizzleable
 
+  def initialize(*args)
+    @swizzle_positions = {'x' => 0, 'y' => 1, 'z' => 2}
+    define_swiz_positions(@swizzle_positions)
+    super
+  end
+
   # Provides access to swizzle functions like #zyx and similar.
   def method_missing(method, *args, &block)
-    if method.to_s.chars.reject{|c| swiz_positions.keys[0..self.length-1].include? c}.length == 0
+    if method.to_s.chars.reject{|c| @swizzle_positions.keys[0..self.length-1].include? c}.length == 0
       if method.to_s.length != self.length
         super
       end
@@ -16,6 +22,8 @@ class Vector < Array
       end
 
       swizzle(method.to_s)
+    else
+      super
     end
   end
 end
