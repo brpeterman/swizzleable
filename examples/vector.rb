@@ -5,7 +5,7 @@ class Vector < Array
   include Swizzleable
 
   def initialize(*args)
-    @swizzle_positions = {'x' => 0, 'y' => 1, 'z' => 2}
+    @swizzle_positions = {'x' => 0, 'y' => 1, 'z' => 2, 'w' => 3}
     define_swiz_positions(@swizzle_positions)
     super
   end
@@ -33,7 +33,7 @@ def test
   v.zyx # [3, 2, 1]
   v.xxy # [1, 1, 2]
   v.xy # NoMethodError
-  v.xyzw #NoMethodError
+  v.xyzw # NoMethodError
 
   v = Vector.new [1, 2, 3, 4, 5]
   v.xyzzy # ArgumentError
