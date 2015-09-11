@@ -27,4 +27,13 @@ module Swizzleable
     pattern.chars.each_with_index {|c, i| new_vector[i] = self[@swizzle_positions[c]]}
     new_vector
   end
+
+  def self.included(base)
+    if !base.method_defined?(:dup) ||
+       !base.method_defined?(:length) ||
+       !base.method_defined?(:[]) ||
+       !base.method_defined?(:[]=)
+      raise TypeError.new "Type #{base} cannot include Swizzleable: Does not provide an appropriate interface."
+    end
+  end
 end
